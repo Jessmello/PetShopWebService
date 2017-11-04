@@ -7,6 +7,7 @@ package petshop.service;
 
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 
 /**
  *
@@ -39,9 +40,9 @@ public abstract class AbstractFacade<T> {
     }
     
     public List<T> findByName(Object nome) {
-        javax.persistence.criteria.CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
-        cq.select(cq.from(entityClass));
-        return getEntityManager().createNamedQuery("Animal.findByNome").setParameter(1, nome).getResultList();
+        Query query = getEntityManager().createNamedQuery(entityClass.getSimpleName()+".findByNome");
+        query.setParameter("nome","%"+nome+"%");
+        return query.getResultList();
     }
 
     public List<T> findAll() {

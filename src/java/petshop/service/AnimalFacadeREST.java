@@ -65,7 +65,7 @@ public class AnimalFacadeREST extends AbstractFacade<Animal> {
     }
     
     @GET
-    @Path("nome/{nome}")
+    @Path("search/{nome}")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public List<Animal> findByNome(@PathParam("nome") String nome) {
         return super.findByName(nome);

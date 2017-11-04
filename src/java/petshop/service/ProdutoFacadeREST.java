@@ -63,6 +63,13 @@ public class ProdutoFacadeREST extends AbstractFacade<Produto> {
     }
 
     @GET
+    @Path("search/{nome}")
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public List<Produto> findByNome(@PathParam("nome") String nome) {
+        return super.findByName(nome);
+    }
+    
+    @GET
     @Override
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public List<Produto> findAll() {
