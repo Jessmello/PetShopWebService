@@ -1,14 +1,10 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package petshop.service;
 
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -20,10 +16,6 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import petshop.Produto;
 
-/**
- *
- * @author Jess
- */
 @Stateless
 @Path("petshop.produto")
 public class ProdutoFacadeREST extends AbstractFacade<Produto> {
@@ -56,13 +48,6 @@ public class ProdutoFacadeREST extends AbstractFacade<Produto> {
     }
 
     @GET
-    @Path("{id}")
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public Produto find(@PathParam("id") Long id) {
-        return super.find(id);
-    }
-
-    @GET
     @Path("search/{nome}")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public List<Produto> findByNome(@PathParam("nome") String nome) {
@@ -70,24 +55,19 @@ public class ProdutoFacadeREST extends AbstractFacade<Produto> {
     }
     
     @GET
+    @Path("searchType/{tipo}")
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public List<Produto> findByType(@PathParam("tipo") int tipo) {
+        Query query= getEntityManager().createNamedQuery("Produto.findByCdTipoProduto");
+        query.setParameter("cdTipoProduto",tipo);
+        return query.getResultList();
+    }
+    
+    @GET
     @Override
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public List<Produto> findAll() {
         return super.findAll();
-    }
-
-    @GET
-    @Path("{from}/{to}")
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public List<Produto> findRange(@PathParam("from") Integer from, @PathParam("to") Integer to) {
-        return super.findRange(new int[]{from, to});
-    }
-
-    @GET
-    @Path("count")
-    @Produces(MediaType.TEXT_PLAIN)
-    public String countREST() {
-        return String.valueOf(super.count());
     }
 
     @Override
