@@ -2,6 +2,7 @@ package petshop;
 
 import java.io.Serializable;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -21,7 +22,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Produto.findAll", query = "SELECT p FROM Produto p"),
-    @NamedQuery(name = "Produto.findByNome", query = "SELECT p FROM Produto p WHERE p.nome like :nome"),
+    @NamedQuery(name = "Produto.findById", query = "SELECT p FROM Produto p WHERE p.id = :id"),
+    @NamedQuery(name = "Produto.findByNome", query = "SELECT p FROM Produto p WHERE p.nome = :nome"),
+    @NamedQuery(name = "Produto.findByDescricao", query = "SELECT p FROM Produto p WHERE p.descricao = :descricao"),
+    @NamedQuery(name = "Produto.findByMarca", query = "SELECT p FROM Produto p WHERE p.marca = :marca"),
+    @NamedQuery(name = "Produto.findByValor", query = "SELECT p FROM Produto p WHERE p.valor = :valor"),
     @NamedQuery(name = "Produto.findByCdTipoProduto", query = "SELECT p FROM Produto p WHERE p.cdTipoProduto = :cdTipoProduto")})
 public class Produto implements Serializable {
 
@@ -48,7 +53,7 @@ public class Produto implements Serializable {
     @Column(name = "cd_tipo_produto")
     private int cdTipoProduto;
     @JoinColumn(name = "id_animal", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    @ManyToOne
     private Animal idAnimal;
 
     public Produto() {

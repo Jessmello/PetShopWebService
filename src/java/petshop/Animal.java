@@ -22,7 +22,9 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Animal.findAll", query = "SELECT a FROM Animal a"),
-    @NamedQuery(name = "Animal.findByNome", query = "SELECT a FROM Animal a WHERE a.nome like :nome")})
+    @NamedQuery(name = "Animal.findById", query = "SELECT a FROM Animal a WHERE a.id = :id"),
+    @NamedQuery(name = "Animal.findByNome", query = "SELECT a FROM Animal a WHERE a.nome = :nome"),
+    @NamedQuery(name = "Animal.findByDescricao", query = "SELECT a FROM Animal a WHERE a.descricao = :descricao")})
 public class Animal implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -37,7 +39,7 @@ public class Animal implements Serializable {
     @Size(max = 1000)
     @Column(name = "descricao")
     private String descricao;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idAnimal")
+    @OneToMany(cascade=CascadeType.REMOVE, mappedBy = "idAnimal")
     private Collection<Produto> produtoCollection;
 
     public Animal() {
